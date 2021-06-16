@@ -20,10 +20,10 @@ def set_func(layer, in_planes, out_planes):
     layer.branch_3 = PoolBranch(in_planes, out_planes, 'max')
 
     layer.conv_settings = ConvSettings(in_planes, out_planes, 3, 1, 1,
-                                       1).generate_type_eq_settings(5, 5)
+                                       1).generate_type_eq_settings(32, 32)
 
     global n_branches
-    n_branches += len(layer.conv_settings)
+    n_branches = 4 + len(layer.conv_settings)
 
     return n_branches
 
