@@ -27,6 +27,3 @@ def pick_func(layer, layer_type, x):
     if not (0 <= layer_type < n_branches):
         exit(1)
     return getattr(layer, "branch_{}".format(layer_type.cpu().item()))(x)
-
-
-functions = (set_func, pick_func)
