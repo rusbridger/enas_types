@@ -1,4 +1,5 @@
 class ConvSettings:
+
     def __init__(self,
                  in_channels,
                  out_channels,
@@ -17,7 +18,7 @@ class ConvSettings:
         return 2 * self.padding - self.dilation * (self.kernel_size - 1)
 
     def compute_output(self, I):
-        output = (I + self.compute_internal - 1) / self.stride + 1
+        output = (I + self.compute_internal() - 1) / self.stride + 1
         return int(output)
 
     def copy(self, kernel_size, padding, dilation):
@@ -56,7 +57,8 @@ class ConvSettings:
         for p in range(p_limit):
             for d in range(1, d_limit):
                 k = (2 * p - self.compute_internal()) / d + 1
-                if k % 1: continue
+                if k % 1 or k == 1:
+                    continue
                 k = int(k)
 
                 new = self.copy(k, p, d)
@@ -69,8 +71,8 @@ class ConvSettings:
 
 
 if __name__ == "__main__":
-    settings = ConvSettings(64, 64, 3, 1, 1, 1)
-    new_settings = settings.generate_type_eq_settings(5, 5)
+    settings = ConvSettings(0, 0, 3, 1, 1, 1)
+    new_settings = settings.generate_type_eq_settings(32, 32)
     for ns in new_settings:
         print(ns.kernel_size, ns.padding, ns.dilation, ns.stride,
               "<" if settings.is_complete_equivalent(ns) else "")
