@@ -1,5 +1,4 @@
 class ConvSettings:
-
     def __init__(self,
                  in_channels,
                  out_channels,
@@ -71,8 +70,10 @@ class ConvSettings:
 
 
 if __name__ == "__main__":
+    import sys
+    p_limit, d_limit = int(sys.argv[1]), int(sys.argv[2])
     settings = ConvSettings(0, 0, 3, 1, 1, 1)
-    new_settings = settings.generate_type_eq_settings(32, 32)
+    new_settings = settings.generate_type_eq_settings(p_limit, d_limit)
     for ns in new_settings:
         print(ns.kernel_size, ns.padding, ns.dilation, ns.stride,
               "<" if settings.is_complete_equivalent(ns) else "")
