@@ -1,7 +1,7 @@
 from .generate_convs import ConvSettings
 
-from ..conv_branch import ConvBranch
-from ..pool_branch import PoolBranch
+from lib.model.conv_branch import ConvBranch
+from lib.model.pool_branch import PoolBranch
 
 settings = ConvSettings(0, 0, 3, 1, 1, 1).generate_type_eq_settings(12, 12)
 n_branches = 6 + len(settings)
