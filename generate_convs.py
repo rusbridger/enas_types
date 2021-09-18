@@ -92,8 +92,29 @@ class ConvSettings:
 
 
 if __name__ == "__main__":
-    k_limit, p_limit, d_limit = (2, 12), None, (1, 12)
     settings = ConvSettings(0, 0, 3, 1, 1, 1)
-    new_settings = settings.generate_settings_type_eq(k_limit, p_limit, d_limit)
-    for ns in new_settings:
-        print(ns.kernel_size, ns.padding, ns.dilation)
+
+    ranges = {
+        "kd04": ((1, 4), None, (1, 4)),
+        "kd08": ((1, 8), None, (1, 8)),
+        "kd12": ((1, 12), None, (1, 12)),
+        "kd16": ((1, 16), None, (1, 16)),
+        "kp04": ((2, 4), (1, 4), None),
+        "kp08": ((2, 8), (1, 8), None),
+        "kp12": ((2, 12), (1, 12), None),
+        "kp16": ((2, 16), (1, 16), None),
+        "pd04": (None, (1, 4), (1, 4)),
+        "pd08": (None, (1, 8), (1, 8)),
+        "pd12": (None, (1, 12), (1, 12)),
+        "pd16": (None, (1, 16), (1, 16)),
+    }
+    for (name, (K, P, D)) in ranges.items():
+        new_settings = settings.generate_settings_type_eq(K, P, D)
+        content = ""
+
+        for ns in new_settings:
+            content += f"({ns.kernel_size},{ns.padding},{ns.dilation})\n"
+
+        f = open(f"{name}.txt", "w")
+        f.write(content)
+        f.close()
